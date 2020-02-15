@@ -13,10 +13,10 @@ app.get("/api/notes", function (req, res) {
       });
     });
 
-
-
-app.post()
-
+app.post("/api/notes", function (req, res) {
+    fs.readFile(path.join(__dirname, "../db/db.json"), (err, data) => {
+        if (err) throw err;
+        let newNote = req.body;
 
 
 app.delete()

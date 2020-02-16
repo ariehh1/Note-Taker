@@ -30,13 +30,11 @@ module.exports = function(app) {
 
   app.delete("/api/notes/:id", function(req, res) {
     const requestID = req.params.id;
-    console.log(requestID);
 
     let note = notesData.filter(note => {
       return note.id === requestID;
     })[0];
 
-    console.log(note);
     const index = notesData.indexOf(note);
 
     notesData.splice(index, 1);

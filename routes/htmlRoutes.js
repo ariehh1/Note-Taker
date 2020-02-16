@@ -10,4 +10,12 @@ module.exports = function(app) {
   app.get("*", function(req, res) {
     res.sendFile(path.join(__dirname, "../public/index.html"));
   });
+
+  app.get("../assets/js/index.js", function(req, res) {
+    res.sendFile(path.join(__dirname, "../assets/js/index.js"));
+  });
+
+  app.get("../assets/css/styles.css", function(req, res) {
+    res.sendFile(path.join(__dirname, "../assets/css/styles.css"));
+  });
 };

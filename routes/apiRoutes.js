@@ -1,61 +1,43 @@
 "use strict";
 
 const fs = require("fs");
+var noteList = require("../db/db.json");
 
-//exporting get/post/delete functionality
+let i = 0,
+  ln = noteList.length;
+for (i; i < ln; i++) {
+  noteList[i].id = i + 1;
+}
+
 module.exports = function(app) {
-  app.get("/api/notes", (req, res) => {
-    fs.readFile("db/db.json", (err, data) => {
-      if (err) throw err;
-      res.json(JSON.parse(data));
-    });
+  app.get("/api/notes", function(req, res) {
+    res.json(noteList);
   });
 
-  //Create New Note
   app.post("/api/notes", function(req, res) {
-    let userArray = [];
-    let userNote = req.body;
+    var newNote = req.body;
+    if (noteList.length > 0) {
+      newNote.id = noteList[noteList.length - 1].id + 1;
+    } else {
+      newNote.id = 1;
+    }
+    noteList.push(newNote);
 
-    fs.readFile("db/db.json", (err, data) => {
-      if (err) throw err;
-      userArray = JSON.parse(data);
-      //Give input an id
-      if (userArray === 0) {
-        let id = 0;
-      }
-      if (userArray.length > 0) {
-        let newLength = userArray.length;
-        userNote.id = userArray[newLength - 1].id + 1;
-      } else {
-      }
-      id = 0;
-      userNote.id = id += 1;
-      userArray.push(userNote); //push new note to json
-
-      fs.writeFile("db/db.json", JSON.stringify(userArray, null, 2), err => {
-        if (err) throw err;
-      });
+    fs.writeFile("./db/db.json", JSON.stringify(noteList), (results, err) => {
+      if (err) console.log(err);
+      res.json(results);
     });
-    res.json(userNote);
   });
 
-  //Delete Note
-  app.delete("/api/notes/:id", (req, res) => {
-    let selected = parseInt(req.params.id);
+  app.delete("/api/notes/:id", function(req, res) {
+    const deleter = noteList.findIndex(
+      location => location.id === parseInt(req.params.id)
+    );
+    noteList.splice(deleter, 1);
 
-    fs.readFile("db/db.json", (err, data) => {
-      if (err) throw err;
-      userArray = JSON.parse(data);
-
-      for (let i = 0; i < userArray.length; i++) {
-        if (selected === userArray[i].id) {
-          res.json(userArray.splice(i, 1));
-        }
-      }
-      fs.writeFile("db/db.json", JSON.stringify(userArray, null, 2), err => {
-        if (err) throw err;
-        console.log(`Deleted Note #${selected}`);
-      });
+    fs.writeFile("./db/db.json", JSON.stringify(noteList), (results, err) => {
+      if (err) console.log(err);
+      res.json(results);
     });
   });
 };

@@ -1,47 +1,35 @@
 "use strict";
 
-const path = require("path");
 const fs = require("fs");
+const path = require("path");
+const uuidv4 = require("uuid/v4");
+var noteJSON = require("../db/db.json");
 
-module.exports = app => {
+module.exports = function(app) {
   app.get("/api/notes", function(req, res) {
-    fs.readFile(path.join(__dirname, "../db/db.json"), (err, data) => {
-      if (err) throw err;
-      console.log(JSON.parse(data));
-      res.json(JSON.parse(data));
-    });
+    res.JSON(noteJSON);
   });
 
   app.post("/api/notes", function(req, res) {
-    fs.readFile(path.join(__dirname, "../db/db.json"), (err, data) => {
+    const newNote = req.body;
+    const file = path.join(__dirname, "../db/db.json");
+    newNote.id = uuidv4();
+    noteJSON.push(newNote);
+    fs.writeFile(file, JSON.stringify(noteJSON, null, 4), err => {
       if (err) throw err;
-      let newNote = req.body;
-      let notesArr = JSON.parse(data);
-      let id = notesArr[notesArr.length - 1].id + 1;
-      newNote.id = id;
-      notesArr.push(newNote);
-      let notesString = JSON.stringify(notesArr);
-      console.log(typeof notesString);
-      fs.writeFileSync(path.join(__dirname, "../db/db.json"), notesString);
+      console.log("Note has been saved successfully.");
     });
+    res.send(newNote);
   });
 
-  app.delete("/api/notes/:id", function(req, res) {
-    fs.readFile(path.join(__dirname, "../db/db.json"), (err, data) => {
-      if (err) throw err;
-      console.log(req.params.id);
-      //console.log(JSON.parse(data));
-      let notesArr = JSON.parse(data);
-      let newNotesArr = [];
-      for (i = 0; i < notesArr.length; i++) {
-        if (notesArr[i].id != req.params.id) {
-          newNotesArr.push(notesArr[i]);
-        }
-      }
-      console.log(newNotesArr);
-      let notesString = JSON.stringify(newNotesArr);
-      console.log(notesString);
-      fs.writeFileSync(path.join(__dirname, "../db/db.json"), notesString);
-    });
+  app.post("/api/notes/:note", function(req, res) {
+    noteJSON.push(req.body);
+    res.json(true);
+  });
+
+  app.delete("/api/notes/:note", function(req, res) {
+    var selected = req.params.note;
+    noteJSON.pop(selected);
+    res.json(true);
   });
 };

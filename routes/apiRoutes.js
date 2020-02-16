@@ -1,35 +1,61 @@
 "use strict";
 
 const fs = require("fs");
-const path = require("path");
-const uuidv4 = require("uuid/v4");
-var noteJSON = require("../db/db.json");
 
+//exporting get/post/delete functionality
 module.exports = function(app) {
-  app.get("/api/notes", function(req, res) {
-    res.JSON(noteJSON);
-  });
-
-  app.post("/api/notes", function(req, res) {
-    const newNote = req.body;
-    const file = path.join(__dirname, "../db/db.json");
-    newNote.id = uuidv4();
-    noteJSON.push(newNote);
-    fs.writeFile(file, JSON.stringify(noteJSON, null, 4), err => {
+  app.get("/api/notes", (req, res) => {
+    fs.readFile("db/db.json", (err, data) => {
       if (err) throw err;
-      console.log("Note has been saved successfully.");
+      res.json(JSON.parse(data));
     });
-    res.send(newNote);
   });
 
-  app.post("/api/notes/:note", function(req, res) {
-    noteJSON.push(req.body);
-    res.json(true);
+  //Create New Note
+  app.post("/api/notes", function(req, res) {
+    let userArray = [];
+    let userNote = req.body;
+
+    fs.readFile("db/db.json", (err, data) => {
+      if (err) throw err;
+      userArray = JSON.parse(data);
+      //Give input an id
+      if (userArray === 0) {
+        let id = 0;
+      }
+      if (userArray.length > 0) {
+        let newLength = userArray.length;
+        userNote.id = userArray[newLength - 1].id + 1;
+      } else {
+      }
+      id = 0;
+      userNote.id = id += 1;
+      userArray.push(userNote); //push new note to json
+
+      fs.writeFile("db/db.json", JSON.stringify(userArray, null, 2), err => {
+        if (err) throw err;
+      });
+    });
+    res.json(userNote);
   });
 
-  app.delete("/api/notes/:note", function(req, res) {
-    var selected = req.params.note;
-    noteJSON.pop(selected);
-    res.json(true);
+  //Delete Note
+  app.delete("/api/notes/:id", (req, res) => {
+    let selected = parseInt(req.params.id);
+
+    fs.readFile("db/db.json", (err, data) => {
+      if (err) throw err;
+      userArray = JSON.parse(data);
+
+      for (let i = 0; i < userArray.length; i++) {
+        if (selected === userArray[i].id) {
+          res.json(userArray.splice(i, 1));
+        }
+      }
+      fs.writeFile("db/db.json", JSON.stringify(userArray, null, 2), err => {
+        if (err) throw err;
+        console.log(`Deleted Note #${selected}`);
+      });
+    });
   });
 };

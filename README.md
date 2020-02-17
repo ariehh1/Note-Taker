@@ -13,9 +13,10 @@ SO THAT I can organize my thoughts and keep track of tasks I need to complete
 For users that need to keep track of a lot of information, it's easy to forget or be unable to recall something important. Being able to take persistent notes allows users to have written information available when needed.
 
 <h1>Setup:</h1>
-1. In Terminal or Bash, the user will run the following command to run the server: "npm run watch"
-2. Once this comman is run, a successful server message will appear "App listening on PORT: 8080"
-3. To access the application, type "localhost:8080" in the url web address bar
+1) In Terminal or Bash, the user will run the following command to download all application dependencies: "npm install"
+2) In Terminal or Bash, the user will run the following command to run the server: "npm run watch"
+3) Once this command is run, a successful server message will appear "App listening on PORT: 8080"
+4) To access the deployed application, type "localhost:8080" in the url web address bar
 
 <h1>Future Development:</h1>
 If I were to continue developing the application, I would add in more note functionality around duplication and finding specific note items. When a user wants to search for a specific note item, a "find" bar would appear at the top of the application. To eliminate duplication upon user entry, a prompt message could appear alerting the user that a similar note entry has been created and where that note appears within the application.

@@ -21,6 +21,9 @@ For users that need to keep track of a lot of information, it's easy to forget o
 <h1>Deployed Application:</h1>
 https://ariehh1-note-taker.herokuapp.com/
 
+<h1>Languages Utilized:</h1>
+HTML, CSS, Bootstrap, JavaScript, Express
+
 <h1>Future Development:</h1>
 If I were to continue developing the application, I would add in more note functionality around duplication and finding specific note items. When a user wants to search for a specific note item, a "find" bar would appear at the top of the application. To eliminate duplication upon user entry, a prompt message could appear alerting the user that a similar note entry has been created and where that note appears within the application.
 

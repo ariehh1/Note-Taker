@@ -18,11 +18,15 @@ For users that need to keep track of a lot of information, it's easy to forget o
 3) Once this command is run, a successful server message will appear "App listening on PORT: 8080"
 4) To access the deployed application, type "localhost:8080" in the url web address bar
 
+<h1>Deployed Application:</h1>
+https://ariehh1-note-taker.herokuapp.com/
+
 <h1>Future Development:</h1>
 If I were to continue developing the application, I would add in more note functionality around duplication and finding specific note items. When a user wants to search for a specific note item, a "find" bar would appear at the top of the application. To eliminate duplication upon user entry, a prompt message could appear alerting the user that a similar note entry has been created and where that note appears within the application.
 
 <h1>Screenshare:</h1>
 Please follow the below Screencastify video for a quick demonstration:
+https://drive.google.com/file/d/14p0ftCMgJmJmhOvfuGSt3wfTCQ_6uKJ-/view
 
 <h1>Contact Me:</h1>
 
